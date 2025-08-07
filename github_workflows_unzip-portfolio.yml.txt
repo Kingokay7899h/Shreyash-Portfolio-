@@ -1,0 +1,26 @@
+name: Unzip Portfolio
+
+on:
+  workflow_dispatch: # Allows manual triggering from GitHub Actions tab
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Unzip shreyash-portfolio.zip to root
+        run: |
+          unzip -o shreyash-portfolio.zip -d .
+      
+      - name: Show extracted files
+        run: ls -R
+
+      - name: Commit and push extracted files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Extract shreyash-portfolio.zip to root via workflow" || echo "No changes to commit"
+          git push
